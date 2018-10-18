@@ -1,28 +1,53 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <xheader />
+    <xbanner />
+    <xwrapper />
+    <xspace />
+    <xhotList />
+    <xbanner2 />
+    <xhotBrand />
+    <xnewUser />
+    <xhotsingle />
+    <xfooterTab />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import xheader from './components/xheader.vue';
+import xsearch from './components/xsearch.vue';
+import xfooter from './components/xfooter.vue';
+import xgallery from './components/xgallery.vue';
+import xbanner from './components/xbanner.vue';
+import xwrapper from './components/xwrapper.vue';
+import xspace from './components/xspace.vue';
+import xhotList from './components/xhotList.vue';
+import xbanner2 from './components/xbanner2.vue';
+import xhotBrand from './components/xhotBrand.vue';
+import xnewUser from './components/xnewUser.vue';
+import xhotsingle from './components/xhotSingle.vue';
+import xfooterTab from './components/xfooterTab.vue';
 
 export default {
-  name: 'app',
   components: {
-    HelloWorld
+    xheader,
+    xsearch,
+    xfooter,
+    xgallery,
+    xbanner,
+    xwrapper,
+    xspace,
+    xhotList,
+    xbanner2,
+    xhotBrand,
+    xnewUser,
+    xhotsingle,
+    xfooterTab
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
