@@ -2,7 +2,7 @@
 <div>
     ​<footer id="yoho-footer" class="yoho-footer" style="display: block; margin-bottom: 50px;">
     <p class="op-row"><a href="/signin.html?refer=https://m.yohobuy.com/boys" rel="nofollow">登录</a><span class="sep-line">|</span><a href="/reg.html" rel="nofollow">注册</a>
-        <span @click="backTop" class="back-to-top">
+        <span class="back-to-top">
             回到顶部
             <i class="iconfont"></i>
         </span>
@@ -20,11 +20,6 @@ export default {
     return {
       
     }
-  },
-  methods:{
-      backTop(){
-          document.documentElement.scrollTop = document.body.scrollTop = 0;
-      }
   }
 };
 </script>

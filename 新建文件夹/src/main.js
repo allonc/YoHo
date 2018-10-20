@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Cube from 'cube-ui'
+
 Vue.use(Cube)
 import App from './App.vue'
 import $ from 'jquery'
@@ -26,7 +27,7 @@ Vue.prototype.axios = axios;
 Vue.prototype.qs = Qs;
 import '../node_modules/swiper/dist/css/swiper.css'
 import xindex from './components/xindex.vue';
-import test from './components/testBanner.vue';
+import text from './components/testBanner.vue';
 import Product from './components/xproduct.vue';
 // import 'amfe-flexible'
 const store = new Vuex.Store({
@@ -57,8 +58,8 @@ const routes = [{
   path: '/',
   component: xindex
 },{
-  path: '/test',
-  component: test
+  path: '/text',
+  component: text
 }, {
   path: '/product',
   component: Product
