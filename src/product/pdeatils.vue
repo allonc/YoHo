@@ -212,6 +212,90 @@
                     
                 </div>
             </div>
+            <div class="cart-bar" style="display: block;">
+        <input type="hidden" id="remove-cart-count" value="1">
+    <a class="new-foot-ico" href="//m.yohobuy.com/cart/index/index" rel="nofollow">
+        <div class="num-incart iconfont">
+            <span class="num-tag hide"></span>
+            
+        </div>
+        <div class="tip">购物车</div>
+    </a>
+    <a class="new-foot-ico store" href="/shop/apportfolio-1294.html">
+        <div class="iconfont"></div>
+        <div class="tip">品牌店铺</div>
+    </a>
+    <a href="javascript:;" class="new-foot-ico fav like-btn-c">
+        <div id="likeBtn" class="favorite iconfont "></div>
+        <div class="tip opa">收藏</div>
+    </a>
+    <span class="btn-c">
+        <!-- <a id="addtoCart" href="javascript:;" class="addto-cart add-to-cart-url">加入购物车</a> -->
+        <a id="addtoCart" class="addto-cart add-to-cart-url">
+          <cube-popup type="my-popup" :position="position" :mask-closable="true" ref="myPopup4">
+            <div class="chose-panel">
+            <div class="main" id="main">
+        <div class="close iconfont" @click="toggle"></div>
+        <div class="infos ">
+            <div class="basic-info">
+                <div class="thumb-img" v-for="(a,index) in img.slice(0,1)" :key="index">
+                    <img class="thumb" :src="a">
+                </div>
+                <div class="text-info">
+                    <p class="price">
+                        <span class="sale-price">¥{{price}}</span>
+                        <span class="market-price">¥759</span> 
+                    </p>
+                    <input class="not-choose" v-model="Color" disabled="disabled"><input class="not-choose" v-model="Size" disabled="disabled">
+                    <p class="choosed-info"></p>
+                    <p class="size-info hide"></p>
+                    <p class="size-rec hide"></p>
+                </div>
+            </div>
+            <div class="chose-items">
+                    <div class="block-list">
+                        <span class="name">颜色</span>
+                        <ul class="size-row clearfix">
+                            <li v-for="(c,index) in spec.color" :key="index" @click="chosed(c,index)" class="block" :class="{'chosed':index===page&&true}" data-prop-id="color" data-value-id="1049386">{{c}}</li>
+                        </ul>
+                    </div>
+                    <div class="block-list">
+                        <span class="name">尺码</span>
+                        <ul class="size-row clearfix">
+                            <li v-for="(b,index2) in spec.size" :key="index2" @click="chosed2(b,index2)" class="block" :class="{'chosed':page2===index2}"  data-prop-id="size" data-value-id="199">{{b}}</li>
+                        </ul>
+                    </div>
+                <div class="num">
+                    <span class="name">数量</span>
+                    <div class="clearfix">
+                        <a @click="time" class="btn btn-minus " href="javascript:void(0);">
+                            <span class="iconfont "></span>
+                        </a>
+                        <input id="good-num" class="good-num disabled" type="text" v-model="num" disabled="true">
+                            <a class="btn btn-plus" href="javascript:void(0);">
+                                <span @click="plus" class="iconfont "></span>
+                            </a>
+                    </div>
+                    <span class="left-num"></span>
+                    <input id="left-num" type="hidden" value="0">
+                    <input id="limitNum" type="hidden" value="">
+                </div>
+            </div>
+        </div>
+        <div class="btn-wrap">
+                <button id="chose-btn-buynow" class="btn btn-sure-buynow">立即购买</button>
+                <button id="chose-btn-sure" class="btn btn-sure-addtocart">加入购物车</button>
+        </div>
+    </div>
+    </div>
+          </cube-popup>
+          <cube-button @click="showPopup">加入购物车</cube-button>
+        </a>
+    </span>
+    <input type="hidden" id="limitCodeUrl" name="limitCodeUrl" value="">
+    <input type="hidden" id="limitProductPay" name="limitProductPay" value="">
+</div>
+
 
 </div>
 
@@ -225,13 +309,24 @@
 <script>
 import Swiper from "swiper";
 import "../../node_modules/swiper/dist/css/swiper.css";
+const positions = ['bottom']
+let cur = 0
 export default {
   data() {
     return {
       arr: [],
       img: "",
       name: "",
-      price: ""
+      price: "",
+      position: 'bottom',
+      Color:'请选择颜色、尺码',
+      Size:'',
+      bool:true,
+      bool2:true,
+      spec:[],
+      page:'',
+      page2:'',
+      num:'1'
     };
   },
   methods: {
@@ -246,16 +341,16 @@ export default {
         })
         .then(function(response) {
           // handle success
-          console.log(response.data.data.price_ladder.price);
+          console.log(response.data.data.spec);
           var datalist = response.data.data;
           var imglist = response.data.data.goods_content;
           self.arr = datalist;
-          console.log(imglist);
           self.img = imglist;
           var goodsName = response.data.data.goods_name;
           self.name = goodsName;
           var goodsPrice = response.data.data.price_ladder.price;
           self.price = goodsPrice;
+          self.spec = response.data.data.spec
         })
         .catch(function(error) {
           // handle error
@@ -264,8 +359,42 @@ export default {
         .then(function() {
           // always executed
         });
+    },
+     showPopup() {
+      this.position = positions[cur++]
+      if (cur === positions.length) {
+        cur = 0
+      }
+      const component = this.$refs.myPopup4
+      component.show()
+      // setTimeout(() => {
+      //   component.hide()
+      // }, 2000)
+    },
+    toggle(){
+      const component = this.$refs.myPopup4
+        component.hide()
+    },
+    chosed(c,index){
+        this.page = index;
+        this.bool = !this.bool;
+        
+        this.Color = '已选:' + c
+    },
+    chosed2(b,index2){
+        this.page2 = index2;
+       
+        this.Size = '码数:' + b
+    },
+    plus(){
+        this.num ++
+    },
+    time(){
+        if(this.num>0){
+            this.num --
+        }
+        
     }
-   
   },
   mounted() {
     var id = this.$route.query.id;
@@ -292,4 +421,18 @@ export default {
 };
 </script>
 <style>
+.chose-panel .main {
+    background: #fff;
+    bottom: 0;
+    height: 800px!important;
+    left: 0;
+    padding-bottom: 2.5rem;
+    position: absolute;
+    right: 0;
+    color: black;
+}
+.cube-btn{
+  line-height: 1.9!important;
+  background:red
+}
 </style>

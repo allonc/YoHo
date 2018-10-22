@@ -1,40 +1,32 @@
 <template>
-   <cube-button @click="showActionSheet">加入购物车</cube-button>
+<div> 
+  <cube-popup type="my-popup" :position="position" :mask-closable="true" ref="myPopup4">My Popup Content 4</cube-popup>
+  <cube-button @click="showPopup">top/right/bottom/left/center</cube-button>
+</div>
 </template>
 <script>
-
-
+const positions = ['bottom']
+let cur = 0
 export default {
+  data() {
+    return {
+      position: 'bottom'
+    }
+  },
   methods: {
-    showActionSheet() {
-      this.$createActionSheet({
-        title: '我是标题~~~',
-        data: [
-          {
-            content: '<em>align - center</em>',
-            class: 'cube-foo'
-          },
-          {
-            content: 'align - left',
-            align: 'left'
-          },
-          {
-            content: 'align - right',
-            align: 'right'
-          }
-        ],
-        onSelect: (item, index) => {
-          this.$createToast({
-            txt: `Clicked ${item.content}`,
-            time: 1000
-          }).show()
-        }
-      }).show()
+    showPopup() {
+      this.position = positions[cur++]
+      if (cur === positions.length) {
+        cur = 0
+      }
+      const component = this.$refs.myPopup4
+      component.show()
+      setTimeout(() => {
+        component.hide()
+      }, 2000)
     }
   }
-
 }
 </script>
 <style>
-
 </style>

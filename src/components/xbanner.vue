@@ -5,7 +5,7 @@
       <img :src="item.url">
     </a>
   </cube-slide-item>
-    <template slot="dots" slot-scope="props" class="cube-slide-dots">
+    <template slot="dots" slot-scope="props">
     <span class="my-dot" :class="{active: props.current === index}" v-for="(item, index) in items" :key="index">{{index + 1}}</span>
   </template>
 </cube-slide>

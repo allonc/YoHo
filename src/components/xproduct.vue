@@ -3,7 +3,7 @@
         <pheader />
         <div class="good-detail-page yoho-page">
         <pdeatils />
-        <pcartBar />
+        <xfooter />
         </div>
     </div>
 </template>
@@ -11,11 +11,13 @@
 import pheader from '../product/pheader.vue';
 import pdeatils from '../product/pdeatils.vue';
 import pcartBar from '../product/pcartBar.vue';
+import xfooter from './xfooter.vue';
 export default {
     components:{
         pheader,
         pdeatils,
-        pcartBar
+        pcartBar,
+        xfooter
     }
 }
 </script>
