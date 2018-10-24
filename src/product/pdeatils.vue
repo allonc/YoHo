@@ -1,31 +1,14 @@
 <template>
 <div>
-    <div class="banner-container">
-        <div class="tag-container">
-        </div>
-        <div class="banner-top">
-    <div class="banner-swiper swiper-container swiper-container-horizontal">
-        <ul class="swiper-wrapper">
-            <li v-for="(a,index) in img.slice(0, 5)" :key="index" class="swiper-slide swiper-slide-active" style="width: 224px; margin-right: 3px;">
-                <a href="javascript:;">
-                        <img :src="a" >
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="swiper-pagination">
-        <div class="pagination-inner swiper-pagination-clickable swiper-pagination-bullets">
-            <span v-for="(a,index) in img" :key="index" class="swiper-pagination-bullet"></span>
-        </div>
-    </div>
-
-    <div class="my-swiper-button-prev prev-grey swiper-button-disabled"></div>
-    <div class="my-swiper-button-next next-grey"></div>
-    </div>
-    </div>
+   
+        
+        
+    <xbanner :imgList='img' />
+    
+   
         <div class="goods-name">
         <h1 class="name" v-text="name"></h1>
-    </div>
+        </div>
 
 
     <div class="price-date">
@@ -239,14 +222,17 @@
         <div class="infos ">
             <div class="basic-info">
                 <div class="thumb-img" v-for="(a,index) in img.slice(0,1)" :key="index">
-                    <img class="thumb" :src="a">
+                    <cube-button @click="showImagePreview" class="gallery"><img class="thumb" :src="a"></cube-button>
                 </div>
                 <div class="text-info">
                     <p class="price">
                         <span class="sale-price">¥{{price}}</span>
                         <span class="market-price">¥759</span> 
                     </p>
-                    <input class="not-choose" v-model="Color" disabled="disabled"><input class="not-choose" v-model="Size" disabled="disabled">
+                    <input v-if="actived ===''" class="not-choose" v-model="Color" disabled="disabled">
+                    <span style="display:block" v-if="actived !==''">已选:<input style="width:100px" v-if="actived !==''" class="not-choose" v-model="Color" disabled="disabled"></span>
+                    <input v-if="actived2 ===''" class="not-choose" v-model="Size" disabled="disabled">
+                    <span style="display:block" v-if="actived2 !==''">已选:<input style="width:100px" v-if="actived2 !==''" class="not-choose" v-model="Size" disabled="disabled"></span>
                     <p class="choosed-info"></p>
                     <p class="size-info hide"></p>
                     <p class="size-rec hide"></p>
@@ -256,13 +242,13 @@
                     <div class="block-list">
                         <span class="name">颜色</span>
                         <ul class="size-row clearfix">
-                            <li v-for="(c,index) in spec.color" :key="index" @click="chosed(c,index)" class="block" :class="{'chosed':index===page&&true}" data-prop-id="color" data-value-id="1049386">{{c}}</li>
+                            <li v-for="(c,index) in spec.color" :key="index" @click="active(c,index)" class="block" :class="actived === index?'chosed':''" data-prop-id="color" data-value-id="1049386">{{c}}</li>
                         </ul>
                     </div>
                     <div class="block-list">
                         <span class="name">尺码</span>
                         <ul class="size-row clearfix">
-                            <li v-for="(b,index2) in spec.size" :key="index2" @click="chosed2(b,index2)" class="block" :class="{'chosed':page2===index2}"  data-prop-id="size" data-value-id="199">{{b}}</li>
+                            <li v-for="(b,index2) in spec.size" :key="index2" @click="chosed2(b,index2)" class="block" :class="actived2 === index2?'chosed':''"  data-prop-id="size" data-value-id="199">{{b}}</li>
                         </ul>
                     </div>
                 <div class="num">
@@ -284,7 +270,7 @@
         </div>
         <div class="btn-wrap">
                 <button id="chose-btn-buynow" class="btn btn-sure-buynow">立即购买</button>
-                <button id="chose-btn-sure" class="btn btn-sure-addtocart">加入购物车</button>
+                <button @click="addCar" id="chose-btn-sure" class="btn btn-sure-addtocart">加入购物车</button>
         </div>
     </div>
     </div>
@@ -307,27 +293,40 @@
 
 </template>
 <script>
-import Swiper from "swiper";
-import "../../node_modules/swiper/dist/css/swiper.css";
+// import Swiper from "swiper";
+// import "../../node_modules/swiper/dist/css/swiper.css";
+import xbanner from '../components/xbanner.vue';
 const positions = ['bottom']
 let cur = 0
+const COMPONENT_NAME = 'cube-extend-popup'
 export default {
   data() {
     return {
+      name: COMPONENT_NAME,
+      props: {
+       content: {
+        type: String
+        }
+      },
       arr: [],
-      img: "",
-      name: "",
-      price: "",
+      imgs: '',
+      img: [],
+      name: '',
+      price: '',
       position: 'bottom',
       Color:'请选择颜色、尺码',
       Size:'',
       bool:true,
       bool2:true,
       spec:[],
-      page:'',
-      page2:'',
-      num:'1'
+      page:0,
+      actived2:'',
+      num:'1',
+      actived:''
     };
+  },
+  components:{
+      xbanner
   },
   methods: {
     getDeatils: function(id) {
@@ -341,11 +340,12 @@ export default {
         })
         .then(function(response) {
           // handle success
-          console.log(response.data.data.spec);
+          console.log(response.data.data.goods_content);
           var datalist = response.data.data;
           var imglist = response.data.data.goods_content;
           self.arr = datalist;
           self.img = imglist;
+          self.imgs = imglist.slice(0,4);
           var goodsName = response.data.data.goods_name;
           self.name = goodsName;
           var goodsPrice = response.data.data.price_ladder.price;
@@ -375,52 +375,98 @@ export default {
       const component = this.$refs.myPopup4
         component.hide()
     },
-    chosed(c,index){
-        this.page = index;
-        this.bool = !this.bool;
+    chosed(c){
+        if(c.chosed == true){
+            this.spec.forEach((c) => {
+                this.$set(c,'chosed',false);
+                this.Color = '请选择颜色'
+            })
+            return
+        }
+        this.spec.forEach((c) =>{
+            this.$set(c,'chosed',false)
+        })
+            this.$set(c,'chosed',true)
+        // this.page = index;
+        // this.bool = !this.bool;
         
-        this.Color = '已选:' + c
+        this.Color = '已选:' + c.color_name
     },
     chosed2(b,index2){
-        this.page2 = index2;
-       
-        this.Size = '码数:' + b
+        if(this.actived2 === index2){
+            this.actived2 = '';
+            this.Size = '请选择码数';
+            return
+        }
+            this.actived2 = index2;
+            this.Size =  b
+    },
+    active(c,index){
+        if(this.actived === index){
+            this.actived = '';
+            this.Color = '请选择颜色';
+            return
+        }
+            this.actived = index;
+            this.Color = c 
+    },
+    show() {
+        this.$refs.popup.show()
+      },
+    hide() {
+        this.$refs.popup.hide()
+        this.$emit('hide')
     },
     plus(){
         this.num ++
     },
     time(){
-        if(this.num>0){
+        if(this.num>1){
             this.num --
+        } 
+    },
+    showImagePreview() {
+      this.$createImagePreview({
+        imgs: this.imgs
+      }).show()
+    },
+    addCar(){
+        if(this.actived === ''){
+            alert('请选择颜色')
+            return
+        }else if(this.actived2 === ''){
+            alert('请选择码数')
+            return
         }
-        
+        location.href = '#/xbuyCar'
     }
   },
   mounted() {
     var id = this.$route.query.id;
     this.getDeatils(id);
-    var swiper = new Swiper(".swiper-container", {
-      spaceBetween: 30,
-      centeredSlides: true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true
-      },
-      observer: true, //修改swiper自己或子元素时，自动初始化swiper
-      observeParents: true, //修改swiper的父元素时，自动初始化swiper
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      }
-    });
+    // var swiper = new Swiper(".swiper-container", {
+    //   spaceBetween: 30,
+    //   centeredSlides: true,
+    //   autoplay: {
+    //     delay: 2500,
+    //     disableOnInteraction: false
+    //   },
+    //   pagination: {
+    //     el: ".swiper-pagination",
+    //     clickable: true
+    //   },
+    //   observer: true, //修改swiper自己或子元素时，自动初始化swiper
+    //   observeParents: true, //修改swiper的父元素时，自动初始化swiper
+    //   navigation: {
+    //     nextEl: ".swiper-button-next",
+    //     prevEl: ".swiper-button-prev"
+    //   }
+    // });
+    
   }
 };
 </script>
-<style>
+<style scoped>
 .chose-panel .main {
     background: #fff;
     bottom: 0;
@@ -435,4 +481,8 @@ export default {
   line-height: 1.9!important;
   background:red
 }
+.gallery{
+    padding: 0!important;
+}
 </style>
+

@@ -7,7 +7,7 @@
         <div class="ul-arr"></div>
         <ul>
             <li>
-                <a href="//m.yohobuy.com/?go=1">
+                <a href="#/">
                     <i class="iconfont"></i>
                     <span>首页</span>
                 </a>

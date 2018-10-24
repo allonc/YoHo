@@ -17,7 +17,7 @@ import './font_icon/iconfont.css'
 import './css/1.css'
 import './css/2.css'
 import './css/3.css'
-import Swiper from 'swiper';
+import './css/4.css'
 
 import axios from 'axios'
 import Qs from 'qs'
@@ -28,6 +28,7 @@ import '../node_modules/swiper/dist/css/swiper.css'
 import xindex from './components/xindex.vue';
 import test from './components/testBanner.vue';
 import Product from './components/xproduct.vue';
+import xbuyCar from './components/xbuyCar.vue';
 // import 'amfe-flexible'
 const store = new Vuex.Store({
   //状态
@@ -62,6 +63,9 @@ const routes = [{
 }, {
   path: '/product',
   component: Product
+},{
+  path: '/xbuyCar',
+  component: xbuyCar
 }
 ]
 
@@ -70,29 +74,11 @@ const routes = [{
 const router = new VueRouter({
   routes // short for `routes: routes`
 })
-const swiper = new Swiper ('.swiper-container', {
-  direction: 'vertical', // 垂直切换选项
-  loop: true, // 循环模式选项
-  
-  // 如果需要分页器
-  pagination: {
-    el: '.swiper-pagination',
-  },
-  
-  // 如果需要前进后退按钮
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-  
-  // 如果需要滚动条
-  scrollbar: {
-    el: '.swiper-scrollbar',
-  },
-})
+router.afterEach((to,from,next) => {
+  window.scrollTo(0,0);
+});
 new Vue({
   router,
   store,
-  Swiper,
   render: h => h(App)
 }).$mount('#app')

@@ -1,10 +1,10 @@
 <template>
     <div class="footer-tab">
-    <a class="tab-item current boys" href="//m.yohobuy.com/?go=1">
+    <a class="tab-item current boys" href="#/">
         <p class="iconfont tab-icon"></p>
         <p class="tab-name">首页</p>
     </a>
-    <a class="tab-item " href="//m.yohobuy.com/cate">
+    <a class="tab-item " href="#/test">
         <p class="iconfont tab-icon"></p>
         <p class="tab-name">分类</p>
     </a>
@@ -12,7 +12,7 @@
         <p class="iconfont tab-icon"></p>
         <p class="tab-name">逛</p>
     </a>
-    <a class="tab-item " href="//m.yohobuy.com/cart/index/index" rel="nofollow">
+    <a class="tab-item " href="#/xbuyCar" rel="nofollow">
         <p class="iconfont tab-icon"></p>
         <p class="tab-name">购物车</p>
     </a>

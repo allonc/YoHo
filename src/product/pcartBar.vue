@@ -71,7 +71,7 @@
         </div>
         <div class="btn-wrap">
                 <button id="chose-btn-buynow" class="btn btn-sure-buynow">立即购买</button>
-                <button id="chose-btn-sure" class="btn btn-sure-addtocart">加入购物车</button>
+                <button @click="addCar" id="chose-btn-sure" class="btn btn-sure-addtocart">加入购物车</button>
         </div>
     </div>
     </div>
@@ -110,6 +110,9 @@ export default {
     toggle(){
       const component = this.$refs.myPopup4
         component.hide()
+    },
+    addCar(){
+      console.log(11)
     }
   }
 }

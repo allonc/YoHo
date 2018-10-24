@@ -1,32 +1,28 @@
 <template>
-<div> 
-  <cube-popup type="my-popup" :position="position" :mask-closable="true" ref="myPopup4">My Popup Content 4</cube-popup>
-  <cube-button @click="showPopup">top/right/bottom/left/center</cube-button>
-</div>
+<cube-button @click="showImagePreview">Show ImagePreview</cube-button>
+
 </template>
-<script>
-const positions = ['bottom']
-let cur = 0
-export default {
+<script type="text/ecmascript-6">
+  export default {
   data() {
     return {
-      position: 'bottom'
+      imgs: [
+        'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0mpd5uj21hc0tyws2.jpg',
+        'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0ncnnej21hc0zetxo.jpg',
+        'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0mqvu5j21hc0zkgzz.jpg',
+        'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0m3ufuj21hc0zkqbj.jpg'
+      ]
     }
   },
   methods: {
-    showPopup() {
-      this.position = positions[cur++]
-      if (cur === positions.length) {
-        cur = 0
-      }
-      const component = this.$refs.myPopup4
-      component.show()
-      setTimeout(() => {
-        component.hide()
-      }, 2000)
+    showImagePreview() {
+      this.$createImagePreview({
+        imgs: this.imgs
+      }).show()
     }
   }
 }
 </script>
 <style>
+ 
 </style>
