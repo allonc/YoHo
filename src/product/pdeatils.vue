@@ -1,11 +1,7 @@
 <template>
 <div>
-   
-        
-        
-    <xbanner :imgList='img' />
+    <div id="ban2"><xbanner :imgList='img.slice(0,4)' /></div>
     
-   
         <div class="goods-name">
         <h1 class="name" v-text="name"></h1>
         </div>
@@ -190,7 +186,7 @@
                 </h2>
                 <div class="pro-detail">
                     
-                    <p></p><p style="text-align: center;"><img class="lazy" src="//img12.static.yhbimg.com/goodsimg/2017/07/12/15/02f841f8c42e1f3c778818d7947972543e.jpg?imageMogr2/thumbnail/750x/quality/60/interlace/1/format/webp" data-original="//img12.static.yhbimg.com/goodsimg/2017/07/12/15/02f841f8c42e1f3c778818d7947972543e.jpg?imageMogr2/thumbnail/750x/quality/60/interlace/1/format/webp" _src="//img12.static.yhbimg.com/goodsimg/2017/07/12/15/02f841f8c42e1f3c778818d7947972543e.jpg?imageMogr2/thumbnail/750x/quality/80/interlace/1"></p><p>KAWS是当代重要艺术家之一，工作生活在纽约布鲁克林，他的艺术和设计作品影响力广泛，以多样形式呈现，包括绘画、壁画、大型雕塑、街头艺术、图像和产品设计。KAWS作品曾在亚特兰大高等艺术博物馆、布鲁克林博物馆和英国约克郡雕塑公园展出，目前KAWS20年主题调研展将从美国沃斯堡现代美术馆巡展至上海余德耀美术馆，此次展览隆重推出BFF公仔T恤、BFF公仔环保袋、BFF公仔雨伞、“始于终点”黑白两色T恤、“始于终点”环保袋等衍生产品。</p><p v-for="(a,index) in img.slice(5)" :key="index"><img class="lazy" :src="a" :data-original="a" _src="//img12.static.yhbimg.com/goodsimg/2017/07/12/15/023197bfcd6b683d31de7e6b6d221e6fb1.jpg?imageMogr2/thumbnail/750x/quality/80/interlace/1" style=""></p>
+                    <p></p><p style="text-align: center;"><img class="lazy" src="//img12.static.yhbimg.com/goodsimg/2017/07/12/15/02f841f8c42e1f3c778818d7947972543e.jpg?imageMogr2/thumbnail/750x/quality/60/interlace/1/format/webp" data-original="//img12.static.yhbimg.com/goodsimg/2017/07/12/15/02f841f8c42e1f3c778818d7947972543e.jpg?imageMogr2/thumbnail/750x/quality/60/interlace/1/format/webp" _src="//img12.static.yhbimg.com/goodsimg/2017/07/12/15/02f841f8c42e1f3c778818d7947972543e.jpg?imageMogr2/thumbnail/750x/quality/80/interlace/1"></p><p>KAWS是当代重要艺术家之一，工作生活在纽约布鲁克林，他的艺术和设计作品影响力广泛，以多样形式呈现，包括绘画、壁画、大型雕塑、街头艺术、图像和产品设计。KAWS作品曾在亚特兰大高等艺术博物馆、布鲁克林博物馆和英国约克郡雕塑公园展出，目前KAWS20年主题调研展将从美国沃斯堡现代美术馆巡展至上海余德耀美术馆，此次展览隆重推出BFF公仔T恤、BFF公仔环保袋、BFF公仔雨伞、“始于终点”黑白两色T恤、“始于终点”环保袋等衍生产品。</p><p v-for="(a,index) in img" :key="index"><img class="lazy" :src="a" :data-original="a" _src="//img12.static.yhbimg.com/goodsimg/2017/07/12/15/023197bfcd6b683d31de7e6b6d221e6fb1.jpg?imageMogr2/thumbnail/750x/quality/80/interlace/1" style=""></p>
 
                     
                 </div>
@@ -293,8 +289,6 @@
 
 </template>
 <script>
-// import Swiper from "swiper";
-// import "../../node_modules/swiper/dist/css/swiper.css";
 import xbanner from '../components/xbanner.vue';
 const positions = ['bottom']
 let cur = 0
@@ -322,7 +316,8 @@ export default {
       page:0,
       actived2:'',
       num:'1',
-      actived:''
+      actived:'',
+      id:''
     };
   },
   components:{
@@ -340,12 +335,11 @@ export default {
         })
         .then(function(response) {
           // handle success
-          console.log(response.data.data.goods_content);
+          console.log(response.data.data);
           var datalist = response.data.data;
           var imglist = response.data.data.goods_content;
           self.arr = datalist;
           self.img = imglist;
-          self.imgs = imglist.slice(0,4);
           var goodsName = response.data.data.goods_name;
           self.name = goodsName;
           var goodsPrice = response.data.data.price_ladder.price;
@@ -427,7 +421,7 @@ export default {
     },
     showImagePreview() {
       this.$createImagePreview({
-        imgs: this.imgs
+        imgs: this.img.slice(0,4)
       }).show()
     },
     addCar(){
@@ -438,35 +432,36 @@ export default {
             alert('请选择码数')
             return
         }
-        location.href = '#/xbuyCar'
+        location.href = '#/xbuyCar';
+        $.ajax({
+            type:"GET",
+            url:"http://localhost:9999/addcar",
+            async:true,
+            data:{
+                id:this.id,
+                name:this.name,
+                price:this.price,
+                color:this.Color,
+                size:this.Size,
+                num:this.num,
+                img:this.img.slice(0,1)
+                
+            },
+            success(){
+                console.log('加入成功!')
+            }
+        })
     }
   },
   mounted() {
     var id = this.$route.query.id;
     this.getDeatils(id);
-    // var swiper = new Swiper(".swiper-container", {
-    //   spaceBetween: 30,
-    //   centeredSlides: true,
-    //   autoplay: {
-    //     delay: 2500,
-    //     disableOnInteraction: false
-    //   },
-    //   pagination: {
-    //     el: ".swiper-pagination",
-    //     clickable: true
-    //   },
-    //   observer: true, //修改swiper自己或子元素时，自动初始化swiper
-    //   observeParents: true, //修改swiper的父元素时，自动初始化swiper
-    //   navigation: {
-    //     nextEl: ".swiper-button-next",
-    //     prevEl: ".swiper-button-prev"
-    //   }
-    // });
+    this.id = id
     
   }
 };
 </script>
-<style scoped>
+<style>
 .chose-panel .main {
     background: #fff;
     bottom: 0;
@@ -483,6 +478,24 @@ export default {
 }
 .gallery{
     padding: 0!important;
+}
+#ban2 .cube-slide{
+  height: 11.8rem /* 156/16 */
+}
+#ban2 .cube-slide-dots{
+  bottom: 1rem!important;
+}
+#ban2 .my-dot{
+  height:12px!important;
+  width: 12px!important;
+  border-radius: 50%!important;
+  background: #fff!important;
+  opacity: 0.5;
+  margin:0 10px
+}
+#ban2 .my-dot.active{
+  background: #fff!important;
+  opacity: 1;
 }
 </style>
 

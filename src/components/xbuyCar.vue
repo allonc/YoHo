@@ -11,30 +11,25 @@
             <div class="shopping-cart-page yoho-page ">
     <div class="cart-box">    <div class="cart-nav clearfix more">
         <div class="nav-item active" id="common-cart-nav" data-type="ordinary">
-            <span>普通商品(1)</span>
+            <span>普通商品({{arr.length}})</span>
         </div>
         <button class="btn-edit"></button>
     </div>
    
     <div class="cart-content normal-good active">
-                <a class="tips clearfix" href="/product/boys-new/">
-                    <div>
-                        购物满¥299.00 已免运费
-                    </div>
-                    <span class="iconfont free-shipping">&nbsp;</span>
-                </a>
             <div class="normal-box">
-                <div class="cart-brand box good-pools-data">
+                <div v-for="(a,index) in arr" :key="index" class="cart-brand box good-pools-data">
                         <div class="good-list">
-                                <div class="good-item is-checked" data-promotion="" data-id="1589096" data-skn="51358054" data-mnum="1" data-link="//m.yohobuy.com/product/51358054.html" data-activityid="" data-poolbatchno="">
+                                <div class="good-item is-checked" data-promotion="" data-id="1589096" data-skn="51358054" data-mnum="1"  data-activityid="" data-poolbatchno="">
                                     <div class="opt">
-                                            <i class="iconfont chk select checked"></i>
+                                            <i @click="choseInput(a,index)" class="iconfont chk select" :class="a.active||allCheck?'checked':''"></i>
                                         <i class="iconfont chk edit"></i>
+                                        <input :id="`list-${index}`" type="checkbox" :value="a" v-model="name">
                                     </div>
                                     <div class="good-new-info">
                                         <a href="javascript:;" class="img-a">
                                             <div class="img">
-                                                <img class="thumb lazy" data-original="//img10.static.yhbimg.com/goodsimg/2016/09/06/15/01d4fa710f6418df1b72fe9fae3eb952af.jpg?imageMogr2/thumbnail/120x160/background/d2hpdGU=/position/center/quality/60/format/webp" alt="" src="//img10.static.yhbimg.com/goodsimg/2016/09/06/15/01d4fa710f6418df1b72fe9fae3eb952af.jpg?imageMogr2/thumbnail/120x160/background/d2hpdGU=/position/center/quality/60/format/webp" style="display: block;">
+                                                <img class="thumb lazy" :src="a.Img" style="display: block;">
                                             </div>
                                         </a>
                                         <div class="info">
@@ -42,10 +37,10 @@
                                                 <div class="intro intro-name">
                                                     <div class="name-row">
                                                         <div class="name">
-                                                            <a href="javascript:;">NBA x YO'HOOD 休斯敦火箭队迷彩夹棉夹克</a>
+                                                            <a href="javascript:;">{{a.name}}</a>
                                                         </div>
                                                     </div>
-                                                    <p class="color-size-row"><span class="color">颜色:56:KHAKI</span><span class="size">尺码:M</span></p>
+                                                    <p class="color-size-row"><span class="color">颜色：{{a.Color}}</span><span class="size">尺码：{{a.Size}}</span></p>
                                                 </div>
                                                 <div class="intro intro-edit">
                                                     <div class="edit-box">
@@ -55,18 +50,18 @@
                                                                 <a href="javascript:;" class="btn btn-opt-plus"><span class="iconfont"></span></a>
                                                             </div>
                                                         <div class="edit-size-info  edit-size-info-notop ">
-                                                            <div class="txt">颜色:56:KHAKI 尺码:M</div>
+                                                            <div class="txt">{{a.Color}} 尺码:{{a.Size}}</div>
                                                             <div class="down">
                                                                 <i class="iconfont"></i>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="count">x1</div>
+                                                <div class="count">x{{a.Num}}</div>
                                             </div>
                                             <div class="bottom">
                                                 <div class="price">
-                                                    <span class="market-price">¥774.00</span>
+                                                    <span class="market-price">¥{{a.price}}</span>
                                                     
                                                     
                                                     
@@ -97,12 +92,13 @@
             </div>
             <div class="total box">
                 <div class="price-compute">
-                    <p>总计¥774.00=商品金额¥774.00</p>
+                    <p>总计¥{{sum}}=商品金额¥{{sum}}</p>
                 </div>
             </div>
             <div class="cart-footer">
                 <div class="check-all">
-                    <i class="iconfont chk select checked"></i>
+                    <i @click="choseAll" class="iconfont chk select btnInput" :class="isClear?'checked':''"></i>
+                    <input id="checkAll" type="checkbox" v-model="isClear" />
                     <i class="iconfont chk edit"></i>
                     <p>全选</p>
                 </div>
@@ -112,7 +108,7 @@
                 </div>
                 <div class="opts bill ">
                     <div class="total">
-                        <p class="price">总计:¥774.00&nbsp;&nbsp;(1件)</p>
+                        <p class="price">总计:¥{{sum}}&nbsp;&nbsp;({{name.length}}件)</p>
                         <p class="intro">不含运费</p>
                     </div>
                     <button class="btn btn-red btn-balance">结算</button>
@@ -191,7 +187,94 @@
                         </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      isClear: false,
+      name: [],
+      arr: [],
+      actived: "",
+      allCheck: false
+    };
+  },
+  methods: {
+    choseInput(item,index){
+        document.getElementById(`list-${index}`).click();
+        if(item.active){
+            this.$set(item,'active',false)
+        }else{
+            this.$set(item,'active',true)
+        }
+    },
+    choseAll(){
+        document.getElementById('checkAll').click();
+        // document.getElementsByClassName('btnInput').setAttribute("class",iconfont chk select checked )
+        
+    }
+  },
+  computed: {
+    sum: function() {
+      if (this.name) {
+        var i = 0;
+        var sum = 0;
+        for (; i < this.name.length; i++) {
+          sum += this.name[i]["price"] * this.name[i]["Num"];
+        }
+        return sum;
+      }
+    }
+  },
+  watch: {
+    isClear: function(val) {
+      if (this.isClear) {
+        this.name = [];
+        var i = 0;
+        for (; i < this.arr.length; i++) {
+          this.name.push(this.arr[i]);
+        }
+        this.isClear = true;
+        this.allCheck = true
+      } else {
+        //这一步很关键，要判断全选是否在全选和全不选时候的切换，如果是则清空
+        //如果不是则是多选下的一个或多个不选
+        if (this.name.length == this.arr.length) {
+          this.name = [];
+          this.allCheck = false
+        } else {
+          this.name = this.name;
+        }
+        this.isClear = false;
+        this.allCheck = false
+      }
+    }
+  },
+  mounted() {
+    var self = this;
+    $.ajax({
+      type: "GET",
+      url: "http://localhost:9999/getcar",
+      async: true,
+      success: function(data) {
+        console.log(data);
+        self.arr = data;
+       
+        console.log(self.arr);
+      }
+    }),
+      this.$watch("name", function(val) {
+        if (this.name.length == 0) {
+          this.isClear = false;
+          this.allCheck = false
+        } else if (this.name.length == this.arr.length) {
+          this.isClear = true;
+          this.allCheck = true
+        } else {
+          this.isClear = false;
+          this.allCheck = false
+        }
+      });
+  }
+};
 </script>
 <style scoped>
 .nav-item {

@@ -24,11 +24,11 @@ import Qs from 'qs'
 //QS是axios库中带的，不需要我们再npm安装一个
 Vue.prototype.axios = axios;
 Vue.prototype.qs = Qs;
-import '../node_modules/swiper/dist/css/swiper.css'
 import xindex from './components/xindex.vue';
-import test from './components/testBanner.vue';
+import milst from './main/mlist.vue';
 import Product from './components/xproduct.vue';
 import xbuyCar from './components/xbuyCar.vue';
+import test from './components/testBanner.vue';
 // import 'amfe-flexible'
 const store = new Vuex.Store({
   //状态
@@ -58,14 +58,17 @@ const routes = [{
   path: '/',
   component: xindex
 },{
-  path: '/test',
-  component: test
+  path: '/mlist',
+  component: milst
 }, {
   path: '/product',
   component: Product
 },{
   path: '/xbuyCar',
   component: xbuyCar
+},{
+  path: '/test',
+  component: test
 }
 ]
 

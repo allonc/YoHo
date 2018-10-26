@@ -44,21 +44,5 @@ export default {
 }
 </script>
 <style scoped>
-.cube-slide{
-  height: 7.8rem /* 156/16 */
-}
-.cube-slide-dots{
-  bottom: 2rem!important;
-}
-.my-dot{
-  height:12px!important;
-  width: 12px!important;
-  border-radius: 50%!important;
-  background: #fff!important;
-  opacity: 0.5;
-}
-.my-dot.active{
-  background: #fff!important;
-  opacity: 1;
-}
+
 </style>

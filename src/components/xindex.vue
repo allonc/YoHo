@@ -1,7 +1,9 @@
 <template>
 <div>
     <xheader />
+    <div id="banner1">
     <xbanner :imgList='items' />
+    </div>
     <xwrapper />
     <xspace />
     <xhotList />
@@ -64,4 +66,21 @@ export default {
 };
 </script>
 <style>
+ #banner1 .cube-slide{
+  height: 7.8rem /* 156/16 */
+}
+#banner1 .cube-slide-dots{
+  bottom: 1rem!important;
+}
+#banner1 .my-dot{
+  height:12px!important;
+  width: 12px!important;
+  border-radius: 50%!important;
+  background: #fff!important;
+  opacity: 0.5;
+}
+#banner1 .my-dot.active{
+  background: #fff!important;
+  opacity: 1;
+}
 </style>

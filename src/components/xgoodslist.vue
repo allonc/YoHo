@@ -56,7 +56,7 @@ export default {
         });
     },
     toDeatils:function(id){
-      location.href='#/product?id='+id
+      this.$router.push('/product?id='+id)
     }
   },
 

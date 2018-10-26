@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "cube-ui": "^1.11.1",
     "jquery": "^3.3.1",
+    "mongodb": "^3.1.8",
     "swiper": "^4.4.1",
     "vue": "^2.5.17",
     "vue-awesome-swiper": "^3.1.3",
