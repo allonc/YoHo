@@ -1,0 +1,123 @@
+<template>
+  <div id="app">
+    <ul>
+      <li @click="chooseInput(index)" v-for="(list,index) in lists">{{list.price+index}}</li>
+    </ul>
+			<p>全选</p>
+			<input type="checkbox" v-model="isClear" />
+			<p>多选</p>
+			<ul>
+				<li v-for="(list,index) in lists">
+					<p>
+						<input :id="`list-${index}`" type="checkbox" :value="list" v-model="name">
+						<span>{{list.price}}</span>
+					</p>
+					<p>
+						<button @click="add(index)">+</button>
+						<button @click="reduce(index)">-</button> 数量
+						<span>{{list.number}}</span>
+					</p>
+				</li>
+			</ul>
+			<p>{{isClear}}</p>
+			<p>已选列表</p>
+			<p>{{name}}</p>
+			<p>总额</p>
+			<p>{{sum}}</p>
+		</div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      isClear: false,
+      name: [],
+      lists: [
+        {
+          name: "a",
+          price: 20,
+          number: 1
+        },
+        {
+          name: "b",
+          price: 50,
+          number: 1
+        },
+        {
+          name: "c",
+          price: 10,
+          number: 1
+        },
+        {
+          name: "d",
+          price: 30,
+          number: 1
+        }
+      ]
+    };
+  },
+  methods: {
+    //往列表增加number
+    add: function(index) {
+      this.lists[index].number++;
+      console.log(this.lists);
+    },
+    reduce: function(index) {
+      //数量为0时候不能再减
+      if (this.lists[index].number != 0) {
+        this.lists[index].number--;
+      }
+    },
+    chooseInput(index){
+      document.getElementById(`list-${index}`).click();
+      console.log(index)
+    }
+  },
+  computed: {
+    sum: function() {
+      if (this.name) {
+        var i = 0;
+        var sum = 0;
+        for (; i < this.name.length; i++) {
+          sum += this.name[i]["price"] * this.name[i]["number"];
+        }
+        return sum;
+      }
+    }
+  },
+  watch: {
+    isClear: function(val) {
+      if (this.isClear) {
+        this.name = [];
+        var i = 0;
+        for (; i < this.lists.length; i++) {
+          this.name.push(this.lists[i]);
+        }
+        this.isClear = true;
+      } else {
+        //这一步很关键，要判断全选是否在全选和全不选时候的切换，如果是则清空
+        //如果不是则是多选下的一个或多个不选
+        if (this.name.length == this.lists.length) {
+          this.name = [];
+        } else {
+          this.name = this.name;
+        }
+        this.isClear = false;
+      }
+    }
+  },
+  mounted() {
+    this.$watch("name", function(val) {
+      if (this.name.length == 0) {
+        this.isClear = false;
+      } else if (this.name.length == this.lists.length) {
+        this.isClear = true;
+      } else {
+        this.isClear = false;
+      }
+    });
+  }
+};
+</script>
+<style>
+</style>
