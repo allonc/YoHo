@@ -3,12 +3,12 @@
     <div id="browser-header">
         <span class="nav-btn iconfont icon-icon_caigoushuliang"></span>
         <span class="logo"></span>
-        <span class="search-btn iconfont icon-icon_paizhao"><a href="//search.m.yohobuy.com/search"></a></span>
+        <span class="search-btn iconfont icon-icon_paizhao" @click="$router.push('/psearch')"><a></a></span>
     </div>
     <div id="wechat-header" class="hide">
         <span class="nav-btn iconfont"></span>
         <div class="search-input">
-            <a href="//search.m.yohobuy.com/search">
+            <a>
                 <i class="search-icon iconfont"></i>
                 <p>DC下单8折 2件7折</p>
             </a>

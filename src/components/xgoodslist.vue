@@ -46,6 +46,7 @@ export default {
           console.log(response.data);
           var datalist = response.data.data.data;
           self.arr = datalist;
+          self.$store.dispatch('putgoods',self.arr)
         })
         .catch(function(error) {
           // handle error

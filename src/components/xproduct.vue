@@ -1,6 +1,6 @@
 <template>
     <div>
-        <pheader />
+        <pheader/>
         <div class="good-detail-page yoho-page">
         <pdeatils />
         <xfooter />
@@ -13,6 +13,11 @@ import pdeatils from '../product/pdeatils.vue';
 import pcartBar from '../product/pcartBar.vue';
 import xfooter from './xfooter.vue';
 export default {
+    data(){
+        return{
+            bool:true
+        }
+    },
     components:{
         pheader,
         pdeatils,

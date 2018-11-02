@@ -29,27 +29,36 @@ import milst from './main/mlist.vue';
 import Product from './components/xproduct.vue';
 import xbuyCar from './components/xbuyCar.vue';
 import test from './components/testBanner.vue';
+import psearch from './components/psearch.vue';
 // import 'amfe-flexible'
 const store = new Vuex.Store({
   //状态
   state: {
-    searchText: "",
-    isShowGallery:false,
-    galleryUrl:""
+    list: "",
+    goods:[]
   },
   mutations: {
-    changeSearchText(state, data) {
-      state.searchText = data
+    changelist(state, data) {
+      state.list = data
+    },
+    pushgoods(state,data) {
+      state.goods = data
     }
   },
   actions: {
-    setSearchText(context, data) {
-      context.commit('changeSearchText', data)
+    setlist(context, data) {
+      context.commit('changelist', data)
     },
+    putgoods(context, data) {
+      context.commit('pushgoods', data)
+    }
   },
   getters: {
-    getSearchText(state) {
-      return state.searchText
+    getlist(state) {
+      return state.list
+    },
+    getgoods(state) {
+      return state.goods
     }
   }
   //actions---(commit)--->mutations----->state
@@ -69,6 +78,9 @@ const routes = [{
 },{
   path: '/test',
   component: test
+},{
+  path: '/psearch',
+  component: psearch
 }
 ]
 

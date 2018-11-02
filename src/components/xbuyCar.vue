@@ -118,7 +118,7 @@
                 <div class="dialog-content">您确定要从购物车中删除吗？</div>
                 <div class="dialog-footer">
                     <span class="dialog-left-btn tap-hightlight" @click="delenter = false">取消</span>
-                    <span class="dialog-right-btn tap-hightlight">确定</span>
+                    <span class="dialog-right-btn tap-hightlight" @click="delPick">确定</span>
                 </div>
             </div>
         </div>
@@ -129,15 +129,15 @@ export default {
   data() {
     return {
       isClear: false,
-      delClear:false,
+      delClear: false,
       name: [],
       arr: [],
       actived: "",
       totalPrice: 0,
       totalNum: 0 * 1,
       isHide: false,
-      delenter:false,
-      delShop:[]
+      delenter: false,
+      delShop: []
     };
   },
   methods: {
@@ -154,15 +154,15 @@ export default {
       });
       this.getAllprice();
     },
-    delAll(flag){
-        this.delClear = !flag;
-        this.delShop.forEach((value,index)=>{
-          if (typeof value.checked === "undefined") {
+    delAll(flag) {
+      this.delClear = !flag;
+      this.delShop.forEach((value, index) => {
+        if (typeof value.checked === "undefined") {
           this.$set(value, "checked", !flag);
         } else {
           value.checked = !flag;
-        }   
-        });
+        }
+      });
     },
     //计算商品的总价格
     getAllprice() {
@@ -189,12 +189,21 @@ export default {
       this.getAllprice();
       this.pickAll();
     },
-    delPick(del){
-        if (typeof del.checked === "undefined") {
-        this.$set(del, "checked", true);
-      } else {
-        del.checked = !del.checked;
-      }
+    delPick() {
+        let niko = [];
+      this.arr.forEach((value, index) => {
+        this.delenter = false;
+        if (value.checked) {
+          
+        }else{
+            niko.push(value);
+        }
+        this.arr = niko
+        console.log(niko)
+        
+      });
+     
+      this.getAllprice();
     },
     //判断是否全选
     pickAll() {
@@ -206,8 +215,8 @@ export default {
       });
       this.isClear = bool;
     },
-    delAllpick(){
-        let bool = true;
+    delAllpick() {
+      let bool = true;
       this.delShop.forEach((value, index) => {
         if (!value.checked) {
           bool = false;
@@ -230,8 +239,8 @@ export default {
       }
       this.getAllprice();
     },
-    delEnter(){
-        this.delenter = !this.delenter
+    delEnter() {
+      this.delenter = !this.delenter;
     }
   },
   mounted() {
@@ -262,13 +271,13 @@ export default {
   font-size: 30px !important;
 }
 .dialog-wrapper {
-    background: rgba(0,0,0,.5);
-    bottom: 0;
-    display: block;
-    left: 0;
-    position: fixed;
-    right: 0;
-    top: 0;
-    z-index: 2;
+  background: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  display: block;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 2;
 }
 </style>
