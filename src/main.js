@@ -30,35 +30,42 @@ import Product from './components/xproduct.vue';
 import xbuyCar from './components/xbuyCar.vue';
 import test from './components/testBanner.vue';
 import psearch from './components/psearch.vue';
+import xmain from './main/xmain.vue';
 // import 'amfe-flexible'
 const store = new Vuex.Store({
   //状态
   state: {
-    list: "",
-    goods:[]
+    chanNel: 0,
+    chanNels:[{
+      title:"Boys",
+      path:"boys"
+    },{
+      title:"Girls",
+      path:"girls"
+    },{
+      title:"Kids",
+      path:"kids"
+    },{
+      title:"Liftstyle",
+      path:"lifestyle"
+    }]
   },
   mutations: {
-    changelist(state, data) {
-      state.list = data
-    },
-    pushgoods(state,data) {
-      state.goods = data
+    setChannel(state, data) {
+      state.chanNel = data
     }
   },
   actions: {
-    setlist(context, data) {
-      context.commit('changelist', data)
-    },
-    putgoods(context, data) {
-      context.commit('pushgoods', data)
+    doChannel(context, data) {
+      context.commit('setChannel', data)
     }
   },
   getters: {
-    getlist(state) {
-      return state.list
+    getChannel(state) {
+      return state.chanNel
     },
-    getgoods(state) {
-      return state.goods
+    getChannels(state) {
+      return state.chanNels
     }
   }
   //actions---(commit)--->mutations----->state
@@ -67,8 +74,25 @@ const routes = [{
   path: '/',
   component: xindex
 },{
-  path: '/mlist',
-  component: milst
+  path: '/mlist/',
+  component: milst,
+  children:[{
+    path:'boys',
+    name:'boys',
+    component:xmain
+  },{
+    path:'girls',
+    name:'girls',
+    component:xmain
+  },{
+    path:'kids',
+    name:'kids',
+    component:xmain
+  },{
+    path:'lifestyle',
+    name:'lifestyle',
+    component:xmain
+  }]
 }, {
   path: '/product',
   component: Product

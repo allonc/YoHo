@@ -1,7 +1,8 @@
 <template>
 <div>
     <msearch/>
-    <xmain/>
+    <mainTab/>
+    <router-view></router-view>
     <xfooterTab/>
 </div>
 </template>
@@ -9,6 +10,7 @@
 import msearch from './msearch.vue';
 import xmain from './xmain.vue';
 import xfooterTab from '../components/xfooterTab.vue';
+import mainTab from './mainTab.vue';
 export default {
     data(){
         return{
@@ -18,7 +20,8 @@ export default {
     components:{
         msearch,
         xmain,
-        xfooterTab
+        xfooterTab,
+        mainTab
     }
 }
 </script>

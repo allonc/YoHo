@@ -1,10 +1,7 @@
 <template>
     <div id="search-input" class="search-input">
-            
-                <i class="search-icon iconfont"></i>
-                <p>搜索商品</p>
-           
-        </div>
+          <i class="search-icon iconfont"><input type="text" value="搜索商品"></i>
+    </div>
 </template>
 <script>
 export default {};
@@ -12,7 +9,7 @@ export default {};
 <style scoped>
 .search-input {
   background-color: #f8f8f8;
-  padding: 0.325rem 0.5rem;
+  padding: 1.2rem 0.5rem;
   position: relative;
 }
 

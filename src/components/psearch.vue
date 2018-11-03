@@ -6,7 +6,6 @@
         <span class="iconfont nav-home new-nav-home"></span>
         <p class="nav-title">搜索</p>
     </header>
-        {{searchGoods}}
             <div class="search-page yoho-page">
         <input type="hidden" value="Levi's×米奇联名款预售开启" id="default-terms">
         <div id="search-input" class="search-input">            
@@ -114,46 +113,67 @@
         </div>
 </template>
 <script>
-import xfooter from './xfooter.vue'
+import xfooter from "./xfooter.vue";
 export default {
-    data(){
-        return{
-            bottomType:'5',
-            list:'',
-            goods:[]
-        }
+  data() {
+    return {
+      bottomType: "5",
+      list: "",
+      goods: []
+    };
+  },
+  components: {
+    xfooter
+  },
+  methods: {
+    setList() {
+      this.$store.dispatch("setlist", this.list);
     },
-    components:{
-        xfooter
-    },
-    methods:{
-        setList(){
-            this.$store.dispatch('setlist',this.list)
-        }
-    },
-    computed:{
-        searchGoods() {
-				console.log(this.$store.getters.getgoods);
-                return this.$store.getters.getgoods;
-                this.goods = this.$store.getters.getgoods;
-			},
-        computedGoods() {
-			//var self = this;
-			var newArr = this.goods.filter(function(a) {
-				console.log(a.goods_name.indexOf(this.searchGoods) != -1)
-				//真
-				console.log(a.goods_name, this.searchGoods)
-				return a.goods_name.indexOf(this.searchGoods) != -1
-				//return 
-			}.bind(this))
-			console.log(newArr);
-			return newArr
-		}
-    },
-    mounted(){
-        
-        console.log(this.goods) 
+    getNews: function() {
+      const axios = require("axios");
+      var self = this;
+      axios
+        .get("https://new.hibuys.cn/api/goods/index")
+        .then(function(response) {
+          // handle success
+          console.log(response.data);
+          var datalist = response.data.data.data;
+          self.goods = datalist;
+        })
+        .catch(function(error) {
+          // handle error
+          console.log(error);
+        })
+        .then(function() {
+          // always executed
+        });
     }
+  },
+  computed: {
+    searchGoods() {
+      console.log(this.$store.getters.getgoods);
+      return this.$store.getters.getgoods;
+      this.goods = this.$store.getters.getgoods;
+      console.log(this.goods);
+    },
+    computedGoods() {
+      //var self = this;
+      var newArr = this.goods.filter(
+        function(a) {
+          console.log(a.goods_name.indexOf(this.list) != -1);
+          //真
+          console.log(a.goods_name, this.list);
+          return a.goods_name.indexOf(this.list) != -1;
+          //return
+        }.bind(this)
+      );
+      console.log(newArr);
+      return newArr;
+    }
+  },
+  mounted() {
+    this.getNews();
+  }
 };
 </script>
 <style scoped>
