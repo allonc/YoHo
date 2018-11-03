@@ -1,6 +1,6 @@
 <template>
     <div class="footer-tab">
-    <a v-for="(a,index) in arr" :key="index" @click="routerLink(index,a.path)"  :class="$route.path===a.path?'tab-item current boys':'tab-item'">
+    <a v-for="(a,index) in arr" :key="index" @click="routerLink(index,a.path)" :class="channel===index?'tab-item current boys':'tab-item'">
         <p class="iconfont tab-icon">{{a.icon}}</p>
         <p class="tab-name">{{a.title}}</p>
     </a>
@@ -52,7 +52,13 @@ export default {
     },
     methods:{
         routerLink(index,path){
-            this.$router.push(path)
+            this.$router.push(path);
+            this.$store.dispatch("doTab",index);
+        }
+    },
+    computed:{
+        channel(){
+            return this.$store.getters.getTab
         }
     }
 }

@@ -36,6 +36,7 @@ const store = new Vuex.Store({
   //状态
   state: {
     chanNel: 0,
+    tab:0,
     chanNels:[{
       title:"Boys",
       path:"boys"
@@ -53,11 +54,17 @@ const store = new Vuex.Store({
   mutations: {
     setChannel(state, data) {
       state.chanNel = data
+    },
+    setTab(state, data) {
+      state.tab = data
     }
   },
   actions: {
     doChannel(context, data) {
       context.commit('setChannel', data)
+    },
+    doTab(context, data) {
+      context.commit('setTab', data)
     }
   },
   getters: {
@@ -66,6 +73,9 @@ const store = new Vuex.Store({
     },
     getChannels(state) {
       return state.chanNels
+    },
+    getTab(state) {
+      return state.tab
     }
   }
   //actions---(commit)--->mutations----->state
