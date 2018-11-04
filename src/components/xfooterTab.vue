@@ -1,10 +1,10 @@
 <template>
-    <div class="footer-tab">
-    <a v-for="(a,index) in arr" :key="index" @click="routerLink(index,a.path)" :class="channel===index?'tab-item current boys':'tab-item'">
-        <p class="iconfont tab-icon">{{a.icon}}</p>
-        <p class="tab-name">{{a.title}}</p>
-    </a>
-    <!-- <a class="tab-item " href="#/xmain">
+	<div class="footer-tab">
+		<a v-for="(a,index) in arr" :key="index" @click="routerLink(index,a.path)" :class="channel===index?'tab-item current boys':'tab-item'">
+			<p class="iconfont tab-icon">{{a.icon}}</p>
+			<p class="tab-name">{{a.title}}</p>
+		</a>
+		<!-- <a class="tab-item " href="#/xmain">
         <p class="iconfont tab-icon"></p>
         <p class="tab-name">分类</p>
     </a>
@@ -20,17 +20,17 @@
         <p class="iconfont tab-icon"></p>
         <p class="tab-name">我的</p>
     </a> -->
-</div>
+	</div>
 </template>
 <script>
-export default {
-    data(){
-        return{
-            icon:'',
-            arr: [{
+	export default {
+		data() {
+			return {
+				icon: '',
+				arr: [{
 					title: "首页",
 					icon: '',
-					path:'/' 
+					path: '/'
 				}, {
 					title: "分类",
 					icon: '',
@@ -48,22 +48,26 @@ export default {
 					icon: '',
 					path: '/test'
 				}]
-        }
-    },
-    methods:{
-        routerLink(index,path){
-            this.$router.push(path);
-            this.$store.dispatch("doTab",index);
-        }
-    },
-    computed:{
-        channel(){
-            return this.$store.getters.getTab
-        }
-    }
-}
+			}
+		},
+		methods: {
+			routerLink(index, path) {
+				this.$router.push(path);
+				this.$store.dispatch("doTab", index);
+			}
+		},
+		computed: {
+			channel() {
+				return this.$store.getters.getTab
+			}
+		},
+		watch: {
+			channel() {
+				return this.$store.getters.getTab
+			}
+		}
+	}
 </script>
 <style>
 
 </style>
-

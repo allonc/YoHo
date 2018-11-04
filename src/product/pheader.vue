@@ -32,7 +32,7 @@
             </li>
         </ul>
     </div>
-    <div class="mask" v-if="bool" @click="bool=false"></div>
+    <div class="maskhide" v-if="bool" @click="bool=false"></div>
 </header>
 </template>
 <script>
@@ -56,7 +56,7 @@ export default {
 };
 </script>
 <style scoped>
-.mask{
+.maskhide{
     z-index: 0;
     background: #ccc;
     position: absolute;
